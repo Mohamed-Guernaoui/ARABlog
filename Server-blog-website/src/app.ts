@@ -8,8 +8,10 @@ import deserializeUser from './Middlewares/deserialize'
 const server: Express = express()
 
 server.use(express.json())
-server.use(deserializeUser)
+
 server.use(cors())
+
+server.use(deserializeUser)
 server.use('/', router())
 
 const Port = config.get<number>('port')
