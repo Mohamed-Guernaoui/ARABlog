@@ -68,14 +68,12 @@ const UserAuthform = ({ types }: UserAuthformProp) => {
       />
     </svg>
   );
+
   const userAuthThoughServer = async ({
     ServerRoute,
     FormData,
   }: userAuthThoughServerProp) => {
     try {
-      console.log("====================================");
-      console.log(FormData);
-      console.log("====================================");
       const response: AxiosResponse = await axios.post(
         import.meta.env.VITE_SERVER_DOMAIN + `${ServerRoute}`,
         FormData,
@@ -83,6 +81,7 @@ const UserAuthform = ({ types }: UserAuthformProp) => {
       toast.success("You have successfully logged in");
 
       // Handle the response data
+      console.log("response for this request");
       console.log(response.data);
       storeSesion({ key: "user", value: JSON.stringify(response.data) });
       setuserAuth(response.data);
@@ -90,13 +89,13 @@ const UserAuthform = ({ types }: UserAuthformProp) => {
       //REVIEW: Handle errors
       if (axios.isAxiosError(error)) {
         //REVIEW: Axios error (e.g., network error, status code not in the 2xx range)
-        console.error("Axios Error:", error.message);
-        toast.error(error.message.toString());
+        console.error("Axios Error:", error);
+        toast.error(error.response?.data.toString());
       } else {
         // REVIEW: Non-Axios error
         const nonAxiosError = error as Error;
 
-        console.error("Non-Axios Error:", nonAxiosError.message);
+        console.error("Non-Axios Error:", nonAxiosError);
 
         toast.error(nonAxiosError.message.toString());
       }
