@@ -12,10 +12,13 @@ const Navbar = () => {
 
   const handelKeyDown = (e: React.KeyboardEvent) => {
     const Query = e.target as HTMLInputElement;
+
+    if (!Query.value) {
+      return;
+    }
+
+    console.log(Query.value);
     if (e.key === "Enter") {
-      console.log("====================================");
-      console.log(Query.value && Query.value.length);
-      console.log("====================================");
       navigate(`/search/${Query.value}`);
     }
   };
