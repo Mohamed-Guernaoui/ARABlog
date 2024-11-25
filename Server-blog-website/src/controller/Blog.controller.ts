@@ -12,14 +12,16 @@ import {
 
 import { Request, Response } from 'express'
 
-export async function createBlogHandler(req: Request<{}, {}, createbloginput['body']>, res: Response) {
+export async function createBlogHandler(req: Request<{}, {}, createbloginput['body']>, res: Response): Promise<void> {
+  const user_id = res.locals.user._id
+  console.log('🚀 ~ file: Blog.controller.ts:CreateBlogHandler ~ body', user_id)
   try {
     const user_id = res.locals.user._id
     const body = req.body
     const Blog = await createNewBlog({ ...body, author: user_id })
     res.status(200).json({ Blog })
   } catch (error) {
-    return res.status(409).send(error.message)
+    res.status(409).send(error.message)
   }
 }
 
@@ -27,7 +29,8 @@ export async function GetltestBloghandler(req: Request, res: Response) {
   try {
     const { page } = req.body
     const blogs = await GetLatestblogs(page)
-    return res.status(200).send(blogs)
+    const BlogWithAuthor = blogs.filter((blog) => blog.author)
+    return res.status(200).send(BlogWithAuthor)
   } catch (error) {
     return res.status(409).send(error.message)
   }
@@ -36,8 +39,9 @@ export async function GetltestBloghandler(req: Request, res: Response) {
 export async function GetTrendyBlogs(req: Request, res: Response) {
   try {
     const blogs = await TrendyBlogs()
+    const BlogWithAuthor = blogs.filter((blog) => blog.author)
 
-    return res.status(200).send(blogs)
+    return res.status(200).send(BlogWithAuthor)
   } catch (error) {
     return res.status(409).send(error.message)
   }

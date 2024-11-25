@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
 
-const requireUser = (req: Request, res: Response, next: NextFunction) => {
+const requireUser = (req: Request, res: Response, next: NextFunction): void => {
   const user = res.locals.user
-  console.log('=========user========')
-  console.log(user)
-  console.log('====================================')
+
+  console.log('🚀 ~ action requireUser ', user)
 
   if (!user) {
-    return res.sendStatus(403)
+    res.sendStatus(403)
+    return
   }
 
   return next()

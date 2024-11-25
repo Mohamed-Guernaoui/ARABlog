@@ -32,12 +32,12 @@ export async function GetLatestblogs(page: number) {
 export async function TrendyBlogs() {
   try {
     const Trends = await Blogmodel.find({ draft: false })
-      .populate('author' ,'name profile')
+      .populate('author', 'name profile')
       .sort({ 'activity.total_reads': -1, 'activity.total_likes': -1, createdAt: -1 })
       .select('blog_id createdAt title -_id ')
       .limit(5)
 
-      console.log("Trends",Trends)
+    console.log('Trends', Trends)
 
     return Trends
   } catch (error) {
