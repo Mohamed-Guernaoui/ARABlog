@@ -5,11 +5,15 @@ import { UpdateSession, createSession, findSessions } from '../services/session.
 import { SignJwt } from '../utils/jwt.utils'
 import config from 'config'
 
-export async function createSessionHandler(req: Request, res: Response) {
+export async function createSessionHandler(req: Request, res: Response): Promise<void> {
   // Todo: Validate user's password
 
   const user = await ValidatePassword(req.body)
-  if (!user) return res.status(401).send('invalid Email or password')
+  if (!user) {
+    res.status(401).send('invalid Email or password')
+    return
+  }
+  console.log('this should be the logged')
 
   // Todo: Create Session
 
@@ -31,20 +35,19 @@ export async function createSessionHandler(req: Request, res: Response) {
 
   // Todo: Return access and refresh token
 
-  return res.send({ AccessToken, RefreshToken })
+  res.send({ AccessToken, RefreshToken })
 }
 
-export async function getUserSessionHandeler(req: Request, res: Response) {
+export async function getUserSessionHandeler(req: Request, res: Response): Promise<void> {
   const userId = res.locals.user._id
-
   const sessions = await findSessions({ user: userId, valid: true })
-  return res.send(sessions)
+  res.send(sessions)
 }
 
-export async function DeleteSessoinHandeler(req: Request, res: Response) {
+export async function DeleteSessionHandeler(req: Request, res: Response): Promise<void> {
   const sessionId = res.locals.user.session
   await UpdateSession({ _id: sessionId }, { valid: false })
-  return res.send({
+  res.send({
     accessToken: null,
     refreshToken: null,
   })

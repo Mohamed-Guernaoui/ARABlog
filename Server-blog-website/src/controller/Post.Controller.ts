@@ -16,7 +16,7 @@ export async function CreatePostHandler(req: Request<{}, {}, CreatePostInput['bo
 
 //BUG: bug here ⬇
 
-export async function FindPostHandler(req: Request<GetPostInput['params']>, res: Response) {
+export async function FindPostHandler(req: Request<GetPostInput['params']>, res: Response): Promise<void> {
   try {
     const postid = req.params.postid
 
@@ -25,12 +25,13 @@ export async function FindPostHandler(req: Request<GetPostInput['params']>, res:
     const post = await FindPost({ postid })
 
     if (!post) {
-      return res.sendStatus(404)
+      res.sendStatus(404)
+      return
     }
 
-    return res.send(post)
+    res.send(post)
   } catch (error) {
-    return res.status(409).send(error.message)
+    res.status(409).send(error.message)
   }
 }
 
