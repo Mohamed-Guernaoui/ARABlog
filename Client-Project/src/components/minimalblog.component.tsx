@@ -29,6 +29,7 @@ const Minimalblog: React.FC<{ blog: TrendyBlog; index: number }> = (props: {
       </div>
       <div>
         <div className="flex flex-row gap-2 items-center mb-5">
+        <Link to={`/author/${authorName}`} className="flex flex-row gap-2 items-center mb-5">
           <img
             src={profile}
             className="w-6 h-6 rounded-full"
@@ -37,6 +38,7 @@ const Minimalblog: React.FC<{ blog: TrendyBlog; index: number }> = (props: {
           <p className="line-clamp-1">
             {authorName} @{authorName}
           </p>
+          </Link>
           <p className="min-w-fit">{blogCreatedDate}</p>
         </div>
         <h1 className="blog-title">{blogTitle}</h1>
