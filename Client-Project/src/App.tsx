@@ -6,6 +6,7 @@ import UseAuthProvider from "./Hooks/UserContext";
 import EditorContextProvider from "./Hooks/UseEditorContext";
 import HomePage from "./pages/Home.page";
 import SeachPage from "./pages/Search.page";
+import PageNotFound from "./components/PageNotFound.component";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path="signin" element={<UserAuthform types="sign-in" />} />
               <Route path="signup" element={<UserAuthform types="sign-Up" />} />
               <Route path="search/:query" element={<SeachPage />} />
+              <Route path="*" element={<PageNotFound />} />
             </Route>
           </Routes>
         </EditorContextProvider>
