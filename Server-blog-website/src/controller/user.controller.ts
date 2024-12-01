@@ -1,4 +1,4 @@
-import { CreateUser, getAuthors } from '../services/user.service'
+import { CreateUser, getAuthors,getAuthorById } from '../services/user.service'
 import { CreateZod_UserInput } from './../Schema/user.schema'
 import { Request, Response } from 'express'
 import { omit } from 'lodash'
@@ -14,12 +14,23 @@ export async function createUserHandler(
     res.status(409).send(error.message)
   }
 }
-export async function getAuthorsBysearch(req: Request, res: Response) {
+export async function getAuthorsBysearch(req: Request, res: Response): Promise<void> {
   try {
     const { query } = req.body
     const user = await getAuthors(query)
-    return res.status(200).send(user)
+     res.status(200).send(user)
   } catch (error) {
-    return res.status(409).send(error.message)
+     res.status(409).send(error.message)
+  }
+}
+
+export async function getAuthorByIdController(req: Request, res: Response): Promise<void> {
+  try {
+    const { id } = req.body;
+    const user = await getAuthorById(id);
+    console.log(`new usr profile ${user}`)
+    res.status(200).send(user)
+  } catch (error) {
+    res.status(409).send(error.message)
   }
 }
