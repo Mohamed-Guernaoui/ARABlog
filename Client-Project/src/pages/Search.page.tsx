@@ -12,11 +12,13 @@ import FilterPagination from "../components/fitter_pagination";
 import AuthorCard from "../components/AuthorCard.component";
 type Tauthor = {
   name: string;
+  profile:string;
 };
 const SeachPage = () => {
   const { query } = useParams();
   const [blog, setblog] = useState<TBlog | null>(null);
   const [Authors, setAuthors] = useState<Tauthor[]>([]);
+  console.log(Authors);
 
   const searching = ({ page = 1, new_Array = false }) => {
     axios
