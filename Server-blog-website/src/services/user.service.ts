@@ -34,5 +34,12 @@ export async function findUser(query: FilterQuery<UserDoc>) {
 export async function getAuthors(query: string) {
   return UserModal.find({ name: new RegExp(query, 'i') })
     .limit(50)
-    .select('name -_id')
+    .select('name -_id profile')
+}
+
+export async function getAuthorById(query: string) {
+  console.log("qury Debug",query);
+  return UserModal.findOne({ name: query })
+    .select('name -_id profile')
+    .lean()
 }
